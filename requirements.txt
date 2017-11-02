@@ -1,0 +1,4 @@
+PyYaml
+redis
+aioredis
+autobahn

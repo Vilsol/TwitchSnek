@@ -1,0 +1,11 @@
+#message {
+    position: absolute;
+    width: 600px;
+    top: 310px;
+    left: 125px;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    font-family: Comic Sans MS;
+    font-size: 8px;
+}
+

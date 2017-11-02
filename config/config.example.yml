@@ -1,0 +1,23 @@
+twitch_chat:
+  host: irc.twitch.tv
+  port: 6667
+  channel: #Twitch Channel
+  nickname: #Twitch Bot Username
+  oauth: #Twitch Bot Oauth Token
+
+twitch_snek:
+  redis_key_commands: TWITCHSNEK:COMMANDS
+  redis_key_messages: TWITCHSNEK:MESSAGES
+
+redis:
+    host: 127.0.0.1
+    port: 6379
+    db: 0
+
+crossbar:
+    host: 127.0.0.1
+    port: 9999
+    realm: # Crossbar Realm
+    auth:
+        username: # Crossbar Username
+        password: # Crossbar Password

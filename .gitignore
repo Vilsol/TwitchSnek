@@ -1,0 +1,10 @@
+.idea
+.ipynb_checkpoints
+*.ipynb
+
+__pycache__/
+*.py[cod]
+
+.python-version
+
+config/config.yml
