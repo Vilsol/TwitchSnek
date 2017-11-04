@@ -407,7 +407,7 @@ Game.Snake = function(elementId, conf) {
     var snake    = new Component.Snake(canvas, conf);
     var gameDraw = new Game.Draw(context, snake);
     
-    snake.stage.highScore = parseInt(getCookie('highScore'))
+    snake.stage.highScore = parseInt(getCookie('highScore')) || 0
 
     setInterval(function() {gameDraw.drawStage();}, snake.stage.conf.fps);
 
