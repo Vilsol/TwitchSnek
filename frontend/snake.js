@@ -24,6 +24,28 @@ opposites = {
     'down': 'up'
 }
 
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 Keyboard.Keymap = {
     37: 'left',
     38: 'up',
@@ -56,6 +78,7 @@ Component.Stage = function(canvas, conf) {
     this.length    = [];
     this.food      = {};
     this.score     = 0;
+    this.highScore = 0;
     this.direction = undefined;
     this.lastDirection = 'right';
     this.conf      = {
@@ -201,6 +224,12 @@ Game.Draw = function(context, snake) {
         if (nx == snake.stage.food.x && ny == snake.stage.food.y) {
             var tail = {x: nx, y: ny};
             snake.stage.score++;
+            
+            if(snake.stage.score > snake.stage.highScore){
+              snake.stage.highScore = snake.stage.score
+              setCookie('highScore', snake.stage.highScore, 999)
+            }
+            
             snake.initFood();
         } else if(snake.stage.direction !== undefined) {
             var tail = snake.stage.length.pop();
@@ -242,7 +271,37 @@ Game.Draw = function(context, snake) {
                     type = 'tail'
                 }
             }
+            
             this.drawCell(cell.x, cell.y, type, dir);
+
+            var offsetX = 8;
+            var offsetY = 12;
+
+            if(dir != undefined){
+                var rot = 0
+                switch(dir){
+                    case 'up':
+                        offsetX = 8
+                        offsetY = 12
+                        break;
+                    case 'right':
+                        offsetX = 8
+                        offsetY = 12
+                        break;
+                    case 'down':
+                        offsetX = 8
+                        offsetY = 12
+                        break;
+                }
+            }
+            
+            context.textAlign = "center"
+            
+            if(i == 1){
+            	context.fillText(snake.stage.score, cell.x * snake.stage.conf.cw + offsetX, cell.y * snake.stage.conf.cw + offsetY);
+            }else if(i == 2){
+            	context.fillText(snake.stage.highScore, cell.x * snake.stage.conf.cw + offsetX, cell.y * snake.stage.conf.cw + offsetY);
+            }
         }
 
         headPos = snake.stage.length[0]
@@ -347,6 +406,8 @@ Game.Snake = function(elementId, conf) {
     var context  = canvas.getContext("2d");
     var snake    = new Component.Snake(canvas, conf);
     var gameDraw = new Game.Draw(context, snake);
+    
+    snake.stage.highScore = parseInt(getCookie('highScore'))
 
     setInterval(function() {gameDraw.drawStage();}, snake.stage.conf.fps);
 
