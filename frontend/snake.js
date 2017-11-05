@@ -229,8 +229,6 @@ Game.Draw = function(context, snake) {
               snake.stage.highScore = snake.stage.score
               setCookie('highScore', snake.stage.highScore, 999)
             }
-            
-            snake.initFood();
         } else if(snake.stage.direction !== undefined) {
             var tail = snake.stage.length.pop();
             tail.x   = nx;
@@ -239,6 +237,10 @@ Game.Draw = function(context, snake) {
 
         if(tail !== undefined){
             snake.stage.length.unshift(tail);
+        }
+        
+        if (nx == snake.stage.food.x && ny == snake.stage.food.y) {
+            snake.initFood();
         }
 
         var lastCell = undefined
